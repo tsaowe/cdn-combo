@@ -1,5 +1,7 @@
+import path from "path";
+import fs from "fs";
 import {config} from "../constant.js";
-import {viewPackageVersions} from "./util.js";
+import {directoryTree, download, viewPackageVersions} from "./util.js";
 
 export const system = async (ctx) => {
   ctx.body = {
@@ -33,15 +35,28 @@ export const treePackage = async (ctx) => {
 
 }
 
-export const viewGroupPackageTree = async (ctx) => {
-  const { scope, packageName, version } = ctx.params;
-  ctx.body = `viewGroupPackageTree: @${scope}/${packageName}/${version}`;
-}
-
 export const viewSimplePackageTree = async (ctx) => {
   const { packageName, version } = ctx.params;
-  ctx.body = `viewSimplePackageTree: ${packageName}/${version}`;
+  try{
+    await download(packageName, version);
+    ctx.body = directoryTree(path.join(config.comboFolder, packageName, version));
+  } catch (e) {
+    ctx.body = e;
+  }
 }
+
+
+export const viewGroupPackageTree = async (ctx) => {
+  const { scope, packageName, version } = ctx.params;
+  const realPackageName = `@${scope}/${packageName}`;
+  try{
+    await download(realPackageName, version);
+    ctx.body = directoryTree(path.join(config.comboFolder, realPackageName, version));
+  } catch (e) {
+    ctx.body = e;
+  }
+}
+
 
 
 export const viewPackageVersionSwitch = async (ctx) => {
