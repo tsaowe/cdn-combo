@@ -1,26 +1,15 @@
-import path from "path";
-import fs from "fs";
-import {comboFolder} from "../constant.js";
+import childProcess from "child_process";
+import * as R from 'ramda';
 
-const downloadAndTree = async (ctx, packageName, version) => {
-  try {
-    const parentFolderPath = path.resolve(
-      __dirname,
-      "..",
-      comboFolder,
-      packageName,
-      version
-    );
-    if (!fs.existsSync(parentFolderPath)) {
-      try {
-        await download(packageName, version);
-      } catch (e) {
-        error(e);
+export const viewPackageVersions = (packageName) => {
+  return new Promise((resolve, reject) => {
+    childProcess.exec(`npm view ${packageName} versions --json`, (error, stdout, stderr) => {
+      if (error) {
+        reject(stderr);
+      } else {
+        const versionList = JSON.parse(stdout);
+        resolve(R.reverse(versionList));
       }
-    }
-    ctx.body = tree(parentFolderPath, packageName, version);
-    // ctx.body = treeData;
-  } catch (e) {
-    ctx.body = e;
-  }
-};
+    });
+  });
+}

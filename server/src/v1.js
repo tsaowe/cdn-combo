@@ -1,4 +1,5 @@
 import {config} from "../constant.js";
+import {viewPackageVersions} from "./util.js";
 
 export const system = async (ctx) => {
   ctx.body = {
@@ -8,16 +9,24 @@ export const system = async (ctx) => {
 }
 
 
-
 export const viewSimplePackage = async (ctx) => {
   const { packageName } = ctx.params;
-  ctx.body = `viewGroupPackage: ${packageName}`;
+  try {
+    ctx.body = await viewPackageVersions(packageName);
+  } catch (e) {
+    ctx.body = e;
+  }
 };
 
 
 export const viewGroupPackage = async (ctx) => {
   const { scope, packageName } = ctx.params;
-  ctx.body = `viewGroupPackage: @${scope}/${packageName}`;
+  const realPackageName = `@${scope}/${packageName}`;
+  try {
+    ctx.body = await viewPackageVersions(realPackageName);
+  } catch (e) {
+    ctx.body = e;
+  }
 }
 
 export const treePackage = async (ctx) => {
