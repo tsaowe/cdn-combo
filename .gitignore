@@ -1,0 +1,6 @@
+# this is cdn-combo ignore file
+.DS_Store
+dist
+node_modules
+npm-debug.log
+yarn-error.log
