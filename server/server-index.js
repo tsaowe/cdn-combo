@@ -10,6 +10,9 @@ const router = new Router();
 //  view system info
 router.get("/api/system", v1.system);
 
+//  v1
+router.get("/v1", v1.main);
+
 // view package version list
 //  1. group package, eg: @koa/router
 router.get("/api/view/@:scope/:packageName", v1.viewGroupPackage);
