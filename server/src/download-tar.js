@@ -15,12 +15,11 @@ const runCommand = (command) => {
       }
     });
   });
-}
+};
 
 exports.runCommand = runCommand;
 
 const download = (packageName, version) => {
-
   const projectFolder = path.resolve(__dirname, "..", comboFolder, packageName);
 
   const installPackage = `${packageName}@${version}`;
@@ -28,12 +27,19 @@ const download = (packageName, version) => {
   return new Promise(async (resolve, reject) => {
     let packageRemotePath = "";
     try {
-      packageRemotePath = await runCommand(`npm view ${installPackage} dist.tarball`);
+      packageRemotePath = await runCommand(
+        `npm view ${installPackage} dist.tarball`
+      );
     } catch (e) {
       reject(e);
     }
     packageRemotePath = packageRemotePath.trim();
-    const distPath = path.resolve(__dirname, "..", localFolderName, packageName);
+    const distPath = path.resolve(
+      __dirname,
+      "..",
+      localFolderName,
+      packageName
+    );
     const packagePath = path.resolve(distPath, "package");
     const renamePath = path.resolve(distPath, version);
 
@@ -43,16 +49,16 @@ const download = (packageName, version) => {
       if (!fs.existsSync(packagePath)) {
         fs.mkdirSync(packagePath, { recursive: true });
       }
-      runCommand(`cd ${packagePath} && curl -L ${packageRemotePath} | tar -xz`).then(() => {
-        fs.renameSync(packagePath, renamePath);
-        resolve();
-      }).catch((e) => {
-        reject(e);
-      });
-
+      runCommand(`cd ${packagePath} && curl -L ${packageRemotePath} | tar -xz`)
+        .then(() => {
+          fs.renameSync(packagePath, renamePath);
+          resolve();
+        })
+        .catch((e) => {
+          reject(e);
+        });
     }
   });
-
 };
 
 module.exports = download;
