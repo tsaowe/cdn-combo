@@ -11,11 +11,15 @@
   },
   "dependencies": {
     "@koa/router": "^12.0.0",
+    "antd": "^5.1.2",
+    "axios": "^1.2.2",
+    "jquery": "^3.6.3",
     "koa": "^2.14.1",
     "moment": "^2.29.4",
     "ramda": "^0.28.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "rxjs": "^7.8.0",
     "tar": "^6.1.13"
   },
   "devDependencies": {

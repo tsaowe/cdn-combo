@@ -9,12 +9,8 @@ export default defineConfig({
     port: 4000,
     open: true,
     proxy: {
-      "/api": {
-        target: "http://localhost:4001",
-      },
-      "/v1": {
-        target: "http://localhost:4001",
-      },
+      "/api": "http://127.0.0.1:4001",
+      "/v1": "http://127.0.0.1:4001",
     },
   },
   resolve: {

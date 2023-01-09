@@ -1,10 +1,11 @@
 import path from "path";
 import fs from "fs";
-import moment from 'moment';
+import moment from "moment";
 import { config } from "../constant.js";
 import { directoryTree, download, viewPackageVersions } from "./util.js";
-import {sameMimeType} from "./same-mime-type.js";
-import {getMimeType} from "./get-mime-type.js";
+import { sameMimeType } from "./same-mime-type.js";
+import { getMimeType } from "./get-mime-type.js";
+import axios from "axios";
 
 export const system = async (ctx) => {
   ctx.body = {
@@ -32,7 +33,6 @@ export const viewGroupPackage = async (ctx) => {
   }
 };
 
-
 export const viewSimplePackageTree = async (ctx) => {
   const { packageName, version } = ctx.params;
   try {
@@ -57,8 +57,6 @@ export const viewGroupPackageTree = async (ctx) => {
     ctx.body = e;
   }
 };
-
-
 
 export const main = async (ctx) => {
   try {
@@ -86,7 +84,11 @@ export const main = async (ctx) => {
           const { dir, base } = path.parse(file);
 
           const [packageName, version, ...restPath] = dir.split("/");
-          const parentFolderPath = path.resolve(config.comboFolder, packageName, version);
+          const parentFolderPath = path.resolve(
+            config.comboFolder,
+            packageName,
+            version
+          );
           if (!fs.existsSync(parentFolderPath)) {
             await download(packageName, version);
           }
@@ -126,4 +128,12 @@ export const main = async (ctx) => {
     console.log(e);
     ctx.body = "exception";
   }
-}
+};
+
+export const searchSuggests = async (ctx) => {
+  //  get method get query string 'q'
+  const { q } = ctx.query;
+  const url = `https://www.npmjs.com/search/suggestions?q=${q}`;
+  const res = await axios.get(url);
+  ctx.body = res.data;
+};

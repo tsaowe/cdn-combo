@@ -10,6 +10,9 @@ const router = new Router();
 //  view system info
 router.get("/api/system", v1.system);
 
+//  search suggest
+router.get("/api/search/suggestions", v1.searchSuggests);
+
 //  v1
 router.get("/v1", v1.main);
 
@@ -24,6 +27,8 @@ router.get("/api/view/:packageName", v1.viewSimplePackage);
 router.get("/api/view/@:scope/:packageName/:version", v1.viewGroupPackageTree);
 //  2. simple package,eg: koa/1.0.0
 router.get("/api/view/:packageName/:version", v1.viewSimplePackageTree);
+
+
 
 //  register router
 app.use(router.routes()).use(router.allowedMethods());
