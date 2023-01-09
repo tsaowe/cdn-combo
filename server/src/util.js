@@ -113,6 +113,14 @@ export const download = (packageName, version) => {
   );
   // ~/cdn-combo-repo/combo/antd/5.0.1
 
+  const packageVersionFolderUnderComboFolder = path.resolve(
+    packageNameFolderUnderComboFolder,
+    version
+  );
+  if (fs.existsSync(packageVersionFolderUnderComboFolder)) {
+    return Promise.resolve();
+  }
+
   return new Promise((resolve, reject) => {
     //  download packageName@version tarball to packageNameFolderUnderComboFolder
     childProcess.exec(
@@ -130,6 +138,11 @@ export const download = (packageName, version) => {
             targetFolderName: version,
           }).then(() => {
             console.log("download and untar success");
+            try {
+              fs.unlink(packageVersionTarballUnderComboFolder, () => {});
+            } catch (e) {
+              console.log(e);
+            }
             resolve();
           });
         }
