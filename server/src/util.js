@@ -63,11 +63,12 @@ export const unTar = ({ filePath, targetFolderName }) => {
     filePath.replace(dir, "").replace(/^\/?@/, "").replace(/\//g, "-")
   );
   fs.mkdirSync(path.resolve(dir, targetFolderName), { recursive: true });
+  const realFilePath = isScoped ? scopedFilePath : filePath;
   return new Promise((resolve, reject) => {
     // noinspection JSUnresolvedFunction
-    fs.createReadStream(!isScoped ? filePath : scopedFilePath)
+    fs.createReadStream(realFilePath)
       .on("error", () => {
-        fs.unlink(filePath, () => {});
+        fs.unlink(realFilePath, () => {});
         reject();
       })
       .pipe(zlib.Unzip())
@@ -78,7 +79,7 @@ export const unTar = ({ filePath, targetFolderName }) => {
         })
       )
       .on("end", () => {
-        fs.unlink(filePath, () => {});
+        fs.unlink(realFilePath, () => {});
         resolve();
       });
   });
