@@ -1,10 +1,10 @@
 FROM node:latest
 
 # Create app directory
-WORKDIR /app
+WORKDIR /app/cdn-combo
 
-# clone repo https://github.com/tsaowe/cdn-combo.git
-RUN git clone https://github.com/tsaowe/cdn-combo.git
+# copy
+COPY . /app/cdn-combo
 
 # cd
 WORKDIR /app/cdn-combo
