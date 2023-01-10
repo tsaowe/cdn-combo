@@ -4,7 +4,7 @@ FROM cdn-combo-image-cache:latest
 WORKDIR /app
 
 # Copy necessary files
-COPY server src package.json README.md yarn.lock vite.config.js nginx.conf ./
+COPY server src package.json README.md yarn.lock vite.config.js nginx.conf /app/
 
 # Install dependencies
 # RUN yarn install
