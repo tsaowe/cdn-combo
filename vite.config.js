@@ -8,7 +8,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 4001,
-    open: true,
+    open: "/src/index.html",
     proxy: {
       "/api": "http://127.0.0.1:4000",
       "/v1": "http://127.0.0.1:4000",
@@ -21,8 +21,6 @@ export default defineConfig({
   },
   build: {
     outDir: "../dist",
-    rollupOptions: {
-      input: path.resolve("src", "index.jsx"),
-    },
+    chunkSizeWarningLimit : 1000,
   }
 });
