@@ -6,9 +6,6 @@ WORKDIR /app/cdn-combo
 # copy
 COPY . /app/cdn-combo
 
-# cd
-WORKDIR /app/cdn-combo
-
 # Install dependencies
 RUN yarn install
 
@@ -18,5 +15,5 @@ RUN npm run build
 # Expose port 4000
 EXPOSE 4000
 
-# Start the app
-CMD ["bash", "-c", "node server/server-index.js &"]
+# Start the app, node /app/cdn-combo/server/server-index.js
+CMD [ "npm", "start" ]

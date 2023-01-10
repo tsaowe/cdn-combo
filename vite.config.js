@@ -8,7 +8,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 4001,
-    open: "/src/index.html",
+    open: true,
     proxy: {
       "/api": "http://127.0.0.1:4000",
       "/v1": "http://127.0.0.1:4000",
