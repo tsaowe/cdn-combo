@@ -5,7 +5,7 @@ import { SearchHistory } from "../components/search-history.jsx";
 import { Subject, debounceTime, filter, distinctUntilChanged } from "rxjs";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import {CartButton} from "../components/cart-button.jsx";
+import { CartButton } from "../components/cart-button.jsx";
 
 export const Home = () => {
   const [inputSubject$] = useState(new Subject());

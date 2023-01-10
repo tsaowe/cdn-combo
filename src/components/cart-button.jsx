@@ -69,12 +69,25 @@ export const CartButton = () => {
                     content: (
                       <div>
                         {jsList.map((path) => (
-                          <Tag closable onClose={()=>{
-                            const cartListInLocalStorage = JSON.parse(localStorage.getItem(KEY_OF_CART)) || [];
-                            const newCartList = cartListInLocalStorage.filter(item=>item.key !== path);
-                            localStorage.setItem(KEY_OF_CART, JSON.stringify(newCartList));
-                            refreshCart();
-                          }} color="geekblue">{path}</Tag>
+                          <Tag
+                            closable
+                            onClose={() => {
+                              const cartListInLocalStorage =
+                                JSON.parse(localStorage.getItem(KEY_OF_CART)) ||
+                                [];
+                              const newCartList = cartListInLocalStorage.filter(
+                                (item) => item.key !== path
+                              );
+                              localStorage.setItem(
+                                KEY_OF_CART,
+                                JSON.stringify(newCartList)
+                              );
+                              refreshCart();
+                            }}
+                            color="geekblue"
+                          >
+                            {path}
+                          </Tag>
                         ))}
                       </div>
                     ),
@@ -108,12 +121,25 @@ export const CartButton = () => {
                     content: (
                       <div>
                         {cssList.map((path) => (
-                          <Tag closable onClose={()=>{
-                            const cartListInLocalStorage = JSON.parse(localStorage.getItem(KEY_OF_CART)) || [];
-                            const newCartList = cartListInLocalStorage.filter(item=>item.key !== path);
-                            localStorage.setItem(KEY_OF_CART, JSON.stringify(newCartList));
-                            refreshCart();
-                          }} color="purple">{path}</Tag>
+                          <Tag
+                            closable
+                            onClose={() => {
+                              const cartListInLocalStorage =
+                                JSON.parse(localStorage.getItem(KEY_OF_CART)) ||
+                                [];
+                              const newCartList = cartListInLocalStorage.filter(
+                                (item) => item.key !== path
+                              );
+                              localStorage.setItem(
+                                KEY_OF_CART,
+                                JSON.stringify(newCartList)
+                              );
+                              refreshCart();
+                            }}
+                            color="purple"
+                          >
+                            {path}
+                          </Tag>
                         ))}
                       </div>
                     ),
@@ -128,7 +154,12 @@ export const CartButton = () => {
               />
             );
           default:
-            return <FloatButton key={key} description={<Badge count={list.length} />} />;
+            return (
+              <FloatButton
+                key={key}
+                description={<Badge count={list.length} />}
+              />
+            );
         }
       })}
     </FloatButton.Group>
