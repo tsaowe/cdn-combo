@@ -5,7 +5,19 @@
 > cdn-combo is a tool that can help you to combine multiple files into one file. It is very useful when you want to reduce the number of requests to the server.
 
 
-## use case example:
+## Screen Shot
+1. Home Page
+![HOME](screen-shot/home.jpg)
+2. Search Box
+![search](screen-shot/search.jpg)
+3. Show Package Versions
+![versions](screen-shot/versions.jpg)
+4. Show Package Files
+![tree](screen-shot/tree.jpg)
+5. Show Files In Cart
+![open](screen-shot/open.jpg)
+6. Combo Files
+![concat](screen-shot/concat.jpg)
 
 
 
