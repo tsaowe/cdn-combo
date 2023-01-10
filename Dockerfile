@@ -10,7 +10,7 @@ COPY server src package.json README.md yarn.lock vite.config.js nginx.conf ./
 # RUN yarn install
 
 # Build the app
-RUN yarn build
+RUN npm run build
 
 # Install nginx
 RUN apt-get update && apt-get install -y nginx
