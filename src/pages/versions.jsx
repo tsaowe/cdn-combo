@@ -4,30 +4,37 @@ import { Spin } from "antd";
 import axios from "axios";
 import { useMatch, Link } from "react-router-dom";
 
-import "./versions.css";
-
 export const Versions = () => {
-  const match = useMatch("/versions/:packageName");
+  const match1 = useMatch("/versions/:packageName");
+  const match2 = useMatch("/versions/:packageName/:version");
+
+  const match = match1 || match2;
+
   const [loading, setLoading] = useState(false);
   const packageName = R.path(["params", "packageName"], match);
+  const version = R.path(["params", "version"], match);
   const [versions, setVersions] = useState([]);
   useEffect(() => {
     setLoading(true);
     axios({
       method: "get",
-      url: `/api/view/${packageName}`,
+      url: version
+        ? `/api/view/${packageName}/${version}`
+        : `/api/view/${packageName}`,
     }).then((res) => {
       setVersions(res.data);
       setLoading(false);
     });
-  }, [packageName]);
+  }, [packageName, version]);
   return (
-    <Spin className="version-page-spin" spinning={loading}>
+    <Spin className="page-spin" spinning={loading}>
       <div className="padding-left-12 padding-top-12">
         <ul className="flex-column gap-12 font-16-regular">
-          {versions.map((version) => (
-            <li key={version}>
-              <Link to={`/tree/${packageName}/${version}`}>{version}</Link>
+          {versions.map((v) => (
+            <li key={v}>
+              <Link to={`/tree/${packageName}/${v}`}>
+                {packageName + (version ? `/${version}` : "")}@{v}
+              </Link>
             </li>
           ))}
         </ul>
