@@ -36,5 +36,6 @@
 git clone https://github.com/tsaowe/cdn-combo.git
 cd cdn-combo
 docker build -t cdn-combo-image .
-docker run -d -p 8080:80 cdn-combo-image --name cdn-combo
+# run with name cdn-combo-container host port 9999 inner port 4000
+docker run -d --name cdn-combo-container -p 9999:4000 cdn-combo-image
 ```

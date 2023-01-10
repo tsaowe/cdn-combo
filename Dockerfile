@@ -18,5 +18,5 @@ RUN npm run build
 # Expose port 4000
 EXPOSE 4000
 
-# Start nginx and the app
-CMD ["bash", "-c", "node server/server-index.js & nginx -g 'daemon off;'"]
+# Start the app
+CMD ["bash", "-c", "node server/server-index.js &"]
