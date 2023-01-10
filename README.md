@@ -31,8 +31,8 @@
 > CDN-combo server => CDN server => client
 
 
-### router architecture
+### Build and RUN
 ```
-
-
+docker build -t cdn-combo-image .
+docker run -d -p 8080:80 cdn-combo-image
 ```

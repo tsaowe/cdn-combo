@@ -18,4 +18,7 @@ export default defineConfig({
       "@server": "./server",
     },
   },
+  build: {
+    outDir: "../dist",
+  }
 });
