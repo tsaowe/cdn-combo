@@ -50,6 +50,7 @@ export const Tree = () => {
   const [treeData, setTreeData] = useState([]);
 
   useEffect(() => {
+    setLoading(true);
     axios({
       method: "get",
       url: `/api/view/${realPackageName}/${version}`,
@@ -72,6 +73,7 @@ export const Tree = () => {
         </Button>
         <AntdTree
           showLine
+          className="move-towards-left-6"
           key={treeData.length}
           defaultExpandAll
           onSelect={(selectedKeys, event) => {

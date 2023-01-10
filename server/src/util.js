@@ -6,19 +6,48 @@ import zlib from "zlib";
 import tar from "tar";
 import { config } from "../constant.js";
 
+import { BehaviorSubject } from "rxjs";
+
+const behaviorSubjectMap = new Map();
+
+export const rememberChildProcessExecInSeconds = (command, seconds = 60) => {
+  const key = command;
+  let behaviorSubject = behaviorSubjectMap.get(key);
+  if (!behaviorSubject) {
+    behaviorSubject = new BehaviorSubject(null);
+    behaviorSubjectMap.set(key, behaviorSubject);
+    setTimeout(() => {
+      behaviorSubjectMap.delete(key);
+    }, seconds * 1000);
+    childProcess.exec(command, (error, stdout, stderr) => {
+      if (error) {
+        behaviorSubject.error(stderr);
+      } else {
+        behaviorSubject.next(stdout);
+      }
+    });
+  }
+
+  return new Promise((resolve, reject) => {
+    behaviorSubject.subscribe({
+      next: (value) => {
+        if(value){
+          resolve(value);
+        }
+      },
+      error: reject,
+    });
+  });
+}
+
 export const viewPackageVersions = (packageName) => {
   return new Promise((resolve, reject) => {
-    childProcess.exec(
-      `npm view ${packageName} versions --json`,
-      (error, stdout, stderr) => {
-        if (error) {
-          reject(stderr);
-        } else {
-          const versionList = JSON.parse(stdout);
-          resolve(R.reverse(versionList));
-        }
-      }
-    );
+    rememberChildProcessExecInSeconds(`npm view ${packageName} versions --json`).then((stdout) => {
+      const versionList = JSON.parse(stdout);
+      resolve(R.reverse(versionList));
+    }, (stderr) => {
+      reject(stderr);
+    });
   });
 };
 

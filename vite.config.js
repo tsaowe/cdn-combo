@@ -7,11 +7,11 @@ const config = defineConfig({
   root: path.resolve( "src"),
   plugins: [react()],
   server: {
-    port: 4000,
-    open: "/src/index.html",
+    port: 4001,
+    open: true,
     proxy: {
-      "/api": "http://127.0.0.1:4001",
-      "/v1": "http://127.0.0.1:4001",
+      "/api": "http://127.0.0.1:4000",
+      "/v1": "http://127.0.0.1:4000",
     },
   },
   resolve: {
