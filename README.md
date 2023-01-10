@@ -34,5 +34,5 @@
 ### Build and RUN
 ```
 docker build -t cdn-combo-image .
-docker run -d -p 8080:80 cdn-combo-image
+docker run -d -p 8080:80 cdn-combo-image --name cdn-combo
 ```
