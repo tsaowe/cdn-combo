@@ -3,7 +3,7 @@ import Router from "@koa/router";
 import path from "path";
 import fs from "fs";
 import * as v1 from "./src/v1.js";
-import {config} from "./constant.js";
+import { config } from "./constant.js";
 import mime from "./src/mime.js";
 
 const port = 4000;
@@ -21,13 +21,14 @@ app.use(async (ctx, next) => {
   }
 });
 
-router.get('/assets/:filename', async (ctx) => {
+router.get("/assets/:filename", async (ctx) => {
   const { filename } = ctx.params;
   const ext = path.extname(filename);
   ctx.type = mime[ext.substring(1)];
-  ctx.body = fs.createReadStream(path.resolve(config.projectFolder, 'dist', 'assets', filename));
+  ctx.body = fs.createReadStream(
+    path.resolve(config.projectFolder, "dist", "assets", filename)
+  );
 });
-
 
 //  view system info
 router.get("/api/system", v1.system);

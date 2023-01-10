@@ -13,8 +13,8 @@ import axios from "axios";
 
 export const renderIndex = async () => {
   const indexHtml = path.resolve(config.projectFolder, "dist", "index.html");
-  return  fs.readFileSync(indexHtml, "utf-8");
-}
+  return fs.readFileSync(indexHtml, "utf-8");
+};
 
 export const system = async (ctx) => {
   ctx.body = {

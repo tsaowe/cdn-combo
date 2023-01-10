@@ -31,23 +31,28 @@ export const rememberChildProcessExecInSeconds = (command, seconds = 60) => {
   return new Promise((resolve, reject) => {
     behaviorSubject.subscribe({
       next: (value) => {
-        if(value){
+        if (value) {
           resolve(value);
         }
       },
       error: reject,
     });
   });
-}
+};
 
 export const viewPackageVersions = (packageName) => {
   return new Promise((resolve, reject) => {
-    rememberChildProcessExecInSeconds(`npm view ${packageName} versions --json`).then((stdout) => {
-      const versionList = JSON.parse(stdout);
-      resolve(R.reverse(versionList));
-    }, (stderr) => {
-      reject(stderr);
-    });
+    rememberChildProcessExecInSeconds(
+      `npm view ${packageName} versions --json`
+    ).then(
+      (stdout) => {
+        const versionList = JSON.parse(stdout);
+        resolve(R.reverse(versionList));
+      },
+      (stderr) => {
+        reject(stderr);
+      }
+    );
   });
 };
 
