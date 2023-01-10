@@ -32,5 +32,5 @@ test("get-mime-type.js", () => {
     expect(getMimeType(["a.ccp"])).toBe("application/x-cbr");
     expect(getMimeType(["a.cpio"])).toBe("application/x-cpio");
     expect(getMimeType(["a.deb"])).toBe("application/x-debian-package");
-  })
-})
+  });
+});

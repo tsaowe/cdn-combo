@@ -113,8 +113,12 @@ export const main = async (ctx) => {
             version
           );
           if (!fs.existsSync(parentFolderPath)) {
-            const realPackageName =packageName.startsWith('@') ? `${packageName}/${version}` : `@${packageName}`;
-            const realVersion = packageName.startsWith('@') ? restPath[0] : version;
+            const realPackageName = packageName.startsWith("@")
+              ? `${packageName}/${version}`
+              : `@${packageName}`;
+            const realVersion = packageName.startsWith("@")
+              ? restPath[0]
+              : version;
             await download(realPackageName, realVersion);
           }
           return new Promise((resolve, reject) => {

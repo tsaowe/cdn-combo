@@ -8,7 +8,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "prettier": "prettier --write server/** src/**",
+    "prettier": "prettier --write server/** src/** __test__/**",
     "test": "jest"
   },
   "dependencies": {
