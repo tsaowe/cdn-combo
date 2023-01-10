@@ -1,14 +1,22 @@
 import path from "path";
 import fs from "fs";
 
-import { fileURLToPath } from "url";
+export const getProjectFolder = () => {
+  let current = path.resolve( ".");
+  const stopSignalFileName = 'package.json';
+  for(let i=0;i<10;i++){
+    const children = fs.readdirSync(current);
+    if(children.includes(stopSignalFileName)){
+      return current;
+    }
+    current = path.resolve(current, '..');
+  }
+}
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
-export const comboFolder = path.resolve(__dirname, "..", "combo");
+export const projectFolder = getProjectFolder();
 
-export const projectFolder = path.resolve(__dirname, "..");
+export const comboFolder = path.resolve(getProjectFolder(), "combo");
 
 export const projectServerFolder = path.resolve(projectFolder, "server");
 
@@ -17,8 +25,6 @@ if (!fs.existsSync(comboFolder)) {
 }
 
 export const config = {
-  __dirname,
-  __filename,
   comboFolder,
   projectFolder,
   projectServerFolder,

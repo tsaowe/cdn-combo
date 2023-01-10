@@ -37,7 +37,6 @@ export const rememberChildProcessExecInSeconds = (command, seconds = 60) => {
         behaviorSubject$.error(stderr);
       } else {
         behaviorSubject$.next(stdout);
-        behaviorSubject$.complete();
       }
     });
   }
