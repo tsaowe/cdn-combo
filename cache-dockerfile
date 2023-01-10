@@ -1,9 +1,7 @@
 FROM node:latest
 
-COPY package.json yarn.lock /app/
+COPY server src package.json README.md yarn.lock vite.config.js nginx.conf ./
 
 WORKDIR /app
 
 RUN yarn install
-
-RUN rm package.json yarn.lock
