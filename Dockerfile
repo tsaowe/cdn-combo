@@ -7,7 +7,7 @@ WORKDIR /app
 COPY server src package.json README.md yarn.lock vite.config.js nginx.conf ./
 
 # Install dependencies
-RUN yarn install
+# RUN yarn install
 
 # Build the app
 RUN yarn build
