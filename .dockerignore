@@ -1,0 +1,5 @@
+# ignore file for docker
+node_modules
+combo
+dist
+local
