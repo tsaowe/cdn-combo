@@ -12,6 +12,7 @@ const router = createHashRouter([
   { path: "/versions/:packageName", element: <Versions /> },
   { path: "/versions/:packageName/:version", element: <Versions /> },
   { path: "/tree/:packageName/:version", element: <Tree /> },
+  { path: "/tree/:scope/:packageName/:version", element: <Tree /> },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(

@@ -14,7 +14,9 @@ export const Versions = () => {
   const packageName = R.path(["params", "packageName"], match);
   const version = R.path(["params", "version"], match);
 
-  const requestPackageName = version ? `${packageName}/${version}` : packageName;
+  const requestPackageName = version
+    ? `${packageName}/${version}`
+    : packageName;
   const [versions, setVersions] = useState([]);
   useEffect(() => {
     setLoading(true);
@@ -32,7 +34,9 @@ export const Versions = () => {
         <ul className="flex-column gap-12 font-16-regular">
           {versions.map((v) => (
             <li key={v}>
-              <Link to={`/tree/${requestPackageName}/${v}`}>{requestPackageName}@{v}</Link>
+              <Link to={`/tree/${requestPackageName}/${v}`}>
+                {requestPackageName}@{v}
+              </Link>
             </li>
           ))}
         </ul>

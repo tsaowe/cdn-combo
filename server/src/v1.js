@@ -41,8 +41,15 @@ export const viewSimplePackageTree = async (ctx) => {
   const { packageName, version } = ctx.params;
   try {
     await download(packageName, version);
-    ctx.body = directoryTree(
+    const treeDataWithFolderName = directoryTree(
       path.join(config.comboFolder, packageName, version)
+    );
+    //  replace all the path 'prefix' to ''
+    ctx.body = JSON.parse(
+      JSON.stringify(treeDataWithFolderName).replace(
+        new RegExp(config.comboFolder + "/", "g"),
+        ""
+      )
     );
   } catch (e) {
     ctx.body = e;
@@ -53,9 +60,15 @@ export const viewGroupPackageTree = async (ctx) => {
   const { scope, packageName, version } = ctx.params;
   const realPackageName = `@${scope}/${packageName}`;
   try {
-    await download(realPackageName, version);
-    ctx.body = directoryTree(
+    const treeDataWithFolderName = directoryTree(
       path.join(config.comboFolder, realPackageName, version)
+    );
+    //  replace all the path 'prefix' to ''
+    ctx.body = JSON.parse(
+      JSON.stringify(treeDataWithFolderName).replace(
+        new RegExp(config.comboFolder + "/", "g"),
+        ""
+      )
     );
   } catch (e) {
     ctx.body = e;
