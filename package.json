@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "prettier": "prettier --write server/**/* src/**/*"
+    "prettier": "prettier --write server/** src/**"
   },
   "dependencies": {
     "@koa/router": "^12.0.0",
@@ -19,6 +19,8 @@
     "ramda": "^0.28.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-router": "^6.6.1",
+    "react-router-dom": "^6.6.1",
     "rxjs": "^7.8.0",
     "tar": "^6.1.13"
   },

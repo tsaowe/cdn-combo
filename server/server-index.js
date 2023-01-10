@@ -28,8 +28,6 @@ router.get("/api/view/@:scope/:packageName/:version", v1.viewGroupPackageTree);
 //  2. simple package,eg: koa/1.0.0
 router.get("/api/view/:packageName/:version", v1.viewSimplePackageTree);
 
-
-
 //  register router
 app.use(router.routes()).use(router.allowedMethods());
 

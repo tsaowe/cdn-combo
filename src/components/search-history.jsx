@@ -1,8 +1,19 @@
 import React from "react";
 import { Tag } from "antd";
+import { useNavigate } from "react-router";
 
 const MyTag = (props) => {
-  return <Tag className="cursor-pointer" color="success" {...props} />;
+  const navigate = useNavigate();
+  return (
+    <Tag
+      onClick={() => {
+        navigate(`/tree/${props.children}`);
+      }}
+      className="cursor-pointer"
+      color="success"
+      {...props}
+    />
+  );
 };
 
 export const SearchHistory = () => {
