@@ -1,3 +1,4 @@
+import path from "path";
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { fileURLToPath } from "url";
@@ -10,7 +11,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 4000,
-    open: true,
+    open: "/src/index.html",
     proxy: {
       "/api": "http://127.0.0.1:4001",
       "/v1": "http://127.0.0.1:4001",
@@ -24,7 +25,7 @@ export default defineConfig({
   build: {
     outDir: "../dist",
     rollupOptions: {
-      input: path.resolve(__dirname, "src", "index.html"),
+      input: path.resolve(__dirname, "src", "index.jsx"),
     },
   }
 });
