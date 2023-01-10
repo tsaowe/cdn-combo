@@ -10,6 +10,7 @@
     "prettier": "prettier --write server/** src/**"
   },
   "dependencies": {
+    "@ant-design/icons": "^5.0.0",
     "@koa/router": "^12.0.0",
     "antd": "^5.1.2",
     "axios": "^1.2.2",

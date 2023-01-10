@@ -3,7 +3,7 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
 // https://vitejs.dev/config/
-const config = defineConfig({
+export default defineConfig({
   root: path.resolve( "src"),
   plugins: [react()],
   server: {
@@ -26,5 +26,3 @@ const config = defineConfig({
     },
   }
 });
-console.log(config);
-export default config;

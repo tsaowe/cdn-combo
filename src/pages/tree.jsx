@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Button, Spin, Tree as AntdTree } from "antd";
+import { Button, Spin, Tree as AntdTree, Popover, message } from "antd";
 import * as R from "ramda";
 import axios from "axios";
 import { useMatch, useNavigate } from "react-router-dom";
+import { CartButton } from "../components/cart-button.jsx";
+import {
+  ALLOW_ADD_CART_TYPES,
+  KEY_OF_CART,
+  SubjectOfAddToCart,
+} from "../constant.js";
 
 /**
  * api data structure: {path: string, type: 'file|folder', name: string, children: [...]}
@@ -72,6 +78,64 @@ export const Tree = () => {
           Home
         </Button>
         <AntdTree
+          titleRender={(node) => {
+            const ext = node.title.split(".").pop();
+            const extWithDot = ext ? `.${ext}` : "";
+            const allowAddCart = ALLOW_ADD_CART_TYPES.includes(extWithDot);
+            if (node.disabled || !allowAddCart) {
+              return <span>{node.title}</span>;
+            }
+
+            return (
+              <div className="flex tree-node">
+                <Popover
+                  placement="right"
+                  content={
+                    <Button
+                      type="primary"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        /**
+                         * localStorage key => KEY_OF_CART
+                         * if exists do nothing
+                         * if not exists, add to localStorage
+                         * if localStorage of key is empty, create a new array []
+                         */
+                        const cartList =
+                          JSON.parse(localStorage.getItem(KEY_OF_CART)) || [];
+                        if (!cartList.find((item) => item.key === node.key)) {
+                          cartList.push(node);
+                          localStorage.setItem(
+                            KEY_OF_CART,
+                            JSON.stringify(cartList)
+                          );
+                        } else {
+                          //  put to position 0
+                          const index = cartList.findIndex(
+                            (item) => item.key === node.key
+                          );
+                          const item = cartList.splice(index, 1);
+                          cartList.unshift(item[0]);
+                          localStorage.setItem(
+                            KEY_OF_CART,
+                            JSON.stringify(cartList)
+                          );
+                        }
+                        message.success("Add to cart successfully");
+                        SubjectOfAddToCart.next(node);
+                      }}
+                      size="small"
+                    >
+                      Add to cart
+                    </Button>
+                  }
+                  title={null}
+                >
+                  <span>{node.title}</span>
+                </Popover>
+              </div>
+            );
+          }}
           showLine
           className="move-towards-left-6"
           key={treeData.length}
@@ -83,6 +147,7 @@ export const Tree = () => {
           treeData={treeData}
         />
       </div>
+      <CartButton />
     </Spin>
   );
 };
