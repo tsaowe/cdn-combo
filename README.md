@@ -2,7 +2,7 @@
 
 
 ## What is cdn-combo?
-> cdn-combo is a tool that can help you to combine multiple files into one file. It is very useful when you want to reduce the number of requests to the server.
+![cdn-combo is a tool that can help you to combine multiple files into one file. It is very useful when you want to reduce the number of requests to the server.](screen-shot/combo.jpeg)
 
 
 ## Screen Shot
