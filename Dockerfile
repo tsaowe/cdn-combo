@@ -10,7 +10,7 @@ COPY . /app/cdn-combo
 WORKDIR /app/cdn-combo
 
 # Install dependencies
-# RUN yarn install
+RUN yarn install
 
 # Build the app
 RUN npm run build
