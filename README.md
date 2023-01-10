@@ -6,7 +6,7 @@
 
 
 ## use case example:
-- react external
+
 
 
 ## What the architecture like ?
@@ -39,3 +39,9 @@ docker build -t cdn-combo-image .
 # run with name cdn-combo-container host port 9999 inner port 4000
 docker run -d --name cdn-combo-container -p 9999:4000 cdn-combo-image
 ```
+
+### TODO
+- [ ] add log for server
+- [ ] add volume mount for server
+- [ ] add multi core ??? single core may be not enough
+- [ ] Documentation complete
