@@ -1,5 +1,5 @@
-import React from "react";
-import { Tag } from "antd";
+import React, { useEffect, useState } from "react";
+import { Tag, Badge } from "antd";
 import { useNavigate } from "react-router";
 
 const MyTag = (props) => {
@@ -17,15 +17,26 @@ const MyTag = (props) => {
 };
 
 export const SearchHistory = () => {
+  //  data from KEY_OF_SEARCH_HISTORY
+  const [searchList, setSearchList] = useState([]);
+  useEffect(() => {
+    const searchHistory = localStorage.getItem("searchHistory");
+    if (searchHistory) {
+      setSearchList(JSON.parse(searchHistory));
+    }
+  }, []);
   return (
     <div className="flex margin-24-0">
-      <MyTag>antd</MyTag>
-      <MyTag>react</MyTag>
-      <MyTag>vue</MyTag>
-      <MyTag>angular</MyTag>
-      <MyTag>react-router</MyTag>
-      <MyTag>react-redux</MyTag>
-      <MyTag>react-router-dom</MyTag>
+      {searchList.map((item) => {
+        if (item.queryCount > 1) {
+          return (
+            <Badge offset={[-8,0]} size="small" count={item.queryCount}>
+              <MyTag>{item.name}</MyTag>
+            </Badge>
+          );
+        }
+        return <MyTag key={item.name}>{item.name}</MyTag>;
+      })}
     </div>
   );
 };
