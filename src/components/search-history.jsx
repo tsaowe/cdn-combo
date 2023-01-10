@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Tag, Badge } from "antd";
+import { Tag } from "antd";
 import { useNavigate } from "react-router-dom";
 
 const MyTag = (props) => {
@@ -28,13 +28,6 @@ export const SearchHistory = () => {
   return (
     <div className="flex margin-24-0">
       {searchList.map((item) => {
-        if (item.queryCount > 1) {
-          return (
-            <Badge offset={[-8, 0]} size="small" count={item.queryCount}>
-              <MyTag>{item.name}</MyTag>
-            </Badge>
-          );
-        }
         return <MyTag key={item.name}>{item.name}</MyTag>;
       })}
     </div>
