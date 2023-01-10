@@ -38,13 +38,13 @@ export const Versions = () => {
        */
       const searchHistoryList = JSON.parse(searchHistory);
       const index = searchHistoryList.findIndex(
-        (item) => item.name === packageName
+        (item) => item.name === requestPackageName
       );
       if (index > -1) {
         searchHistoryList[index].queryCount += 1;
         searchHistoryList.unshift(searchHistoryList.splice(index, 1)[0]);
       } else {
-        searchHistoryList.unshift({ name: packageName, queryCount: 1 });
+        searchHistoryList.unshift({ name: requestPackageName, queryCount: 1 });
       }
       localStorage.setItem(
         KEY_OF_SEARCH_HISTORY,
