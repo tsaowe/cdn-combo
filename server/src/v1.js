@@ -1,8 +1,12 @@
 import path from "path";
 import fs from "fs";
-import moment from "moment";
 import { config } from "../constant.js";
-import { directoryTree, download, viewPackageVersions } from "./util.js";
+import {
+  directoryTree,
+  download,
+  getExpiresTime,
+  viewPackageVersions,
+} from "./util.js";
 import { sameMimeType } from "./same-mime-type.js";
 import { getMimeType } from "./get-mime-type.js";
 import axios from "axios";
@@ -109,13 +113,9 @@ export const main = async (ctx) => {
       );
 
       const resHeaders = {};
-      resHeaders["Expires"] = moment()
-        .add(1, "years")
-        .format("ddd, DD MMM YYYY HH:mm:ss GMT");
+      resHeaders["Expires"] = getExpiresTime(1);
       resHeaders["Cache-Control"] = "max-age=315360000";
-      resHeaders["Last-Modified"] = moment().format(
-        "ddd, DD MMM YYYY HH:mm:ss GMT"
-      );
+      resHeaders["Last-Modified"] = getExpiresTime();
       resHeaders["Content-Type"] = getMimeType(list);
       resHeaders["Access-Control-Allow-Origin"] = "*";
       ctx.set(resHeaders);

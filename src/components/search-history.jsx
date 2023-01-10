@@ -7,7 +7,7 @@ const MyTag = (props) => {
   return (
     <Tag
       onClick={() => {
-        navigate(`/tree/${props.children}`);
+        navigate(`/versions/${props.children}`);
       }}
       className="cursor-pointer"
       color="success"

@@ -3,8 +3,8 @@ import { Select } from "antd";
 import { CdnComboText } from "../animation/cdn-combo.jsx";
 import { SearchHistory } from "../components/search-history.jsx";
 import { Subject, debounceTime, filter, distinctUntilChanged } from "rxjs";
-import { useNavigate } from "react-router";
-import $ from "jquery";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export const Home = () => {
   const [inputSubject$] = useState(new Subject());
@@ -36,8 +36,11 @@ export const Home = () => {
         distinctUntilChanged()
       )
       .subscribe((value) => {
-        $.get(`/api/search/suggestions?q=${value}`, (data) => {
-          setSuggestList(data);
+        axios({
+          method: "get",
+          url: `/api/search/suggestions?q=${value}`,
+        }).then((res) => {
+          setSuggestList(res.data);
         });
       });
     return () => {
@@ -74,7 +77,7 @@ export const Home = () => {
         options={options}
         onSelect={(value) => {
           // history.push(`/tree/${value}`);
-          navigate(`/tree/${value}`);
+          navigate(`/versions/${value}`);
         }}
       />
       <SearchHistory />

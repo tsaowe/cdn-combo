@@ -150,3 +150,13 @@ export const download = (packageName, version) => {
     );
   });
 };
+
+/**
+ * get time of 1 year after from now
+ * format: ddd, DD MMM YYYY HH:mm:ss GMT
+ */
+export const getExpiresTime = (year = 0) => {
+  const d = new Date();
+  d.setFullYear(d.getFullYear() + year);
+  return d.toUTCString();
+};
