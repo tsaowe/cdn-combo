@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Button, Spin, Tree as AntdTree, Popover, message } from "antd";
+import {
+  Button,
+  Spin,
+  Tree as AntdTree,
+  Popover,
+  message,
+  Tooltip,
+} from "antd";
 import * as R from "ramda";
 import axios from "axios";
 import { useMatch, useNavigate } from "react-router-dom";
@@ -82,8 +89,17 @@ export const Tree = () => {
             const ext = node.title.split(".").pop();
             const extWithDot = ext ? `.${ext}` : "";
             const allowAddCart = ALLOW_ADD_CART_TYPES.includes(extWithDot);
-            if (node.disabled || !allowAddCart) {
-              return <span>{node.title}</span>;
+            if (node.disabled) {
+              return node.title;
+            }
+            if (!allowAddCart) {
+              return (
+                <Tooltip
+                  title={`only allow add ${ALLOW_ADD_CART_TYPES.join(",  ")}`}
+                >
+                  {node.title}
+                </Tooltip>
+              );
             }
 
             return (
@@ -131,7 +147,13 @@ export const Tree = () => {
                   }
                   title={null}
                 >
-                  <span>{node.title}</span>
+                  <span
+                    style={{
+                      color: "rgb(82, 196, 26)",
+                    }}
+                  >
+                    {node.title}
+                  </span>
                 </Popover>
               </div>
             );

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback, useMemo } from "react";
-import { Badge, FloatButton, Modal, Tag } from "antd";
+import { Badge, FloatButton, Modal, Tag, message } from "antd";
 import {
   ALLOW_ADD_CART_TYPES,
   KEY_OF_CART,
@@ -38,6 +38,48 @@ export const CartButton = () => {
     return map;
   }, [cartList]);
 
+  const handleCartClick = useCallback((list, title = "") => {
+    const filePathList = list.map((item) => item.key);
+    Modal.info({
+      title,
+      width: 800,
+      closable: true,
+      okText: "Open All",
+      onOk() {
+        if (filePathList.length === 0) {
+          message.info("No files to open");
+          return Promise.reject();
+        }
+        const comboString = filePathList.join(",");
+        const url = `/v1??${comboString}`;
+        window.open(url);
+        return Promise.reject();
+      },
+      content: (
+        <div className="flex wrap gap-6-12">
+          {filePathList.map((path) => (
+            <Tag
+              closable
+              onClose={() => {
+                const cartListInLocalStorage =
+                  JSON.parse(localStorage.getItem(KEY_OF_CART)) || [];
+                const newCartList = cartListInLocalStorage.filter(
+                  (item) => item.key !== path
+                );
+                filePathList.splice(filePathList.indexOf(path), 1);
+                localStorage.setItem(KEY_OF_CART, JSON.stringify(newCartList));
+                refreshCart();
+              }}
+              color="geekblue"
+            >
+              {path}
+            </Tag>
+          ))}
+        </div>
+      ),
+    });
+  }, []);
+
   if (!cartList.length) {
     return null;
   }
@@ -55,43 +97,7 @@ export const CartButton = () => {
               <FloatButton
                 key={key}
                 onClick={() => {
-                  const jsList = list.map((item) => item.key);
-                  Modal.info({
-                    title: "JS List",
-                    width: 800,
-                    closable: true,
-                    okText: "Open All",
-                    onOk() {
-                      const jsString = jsList.join(",");
-                      const url = `/v1??${jsString}`;
-                      window.open(url);
-                    },
-                    content: (
-                      <div>
-                        {jsList.map((path) => (
-                          <Tag
-                            closable
-                            onClose={() => {
-                              const cartListInLocalStorage =
-                                JSON.parse(localStorage.getItem(KEY_OF_CART)) ||
-                                [];
-                              const newCartList = cartListInLocalStorage.filter(
-                                (item) => item.key !== path
-                              );
-                              localStorage.setItem(
-                                KEY_OF_CART,
-                                JSON.stringify(newCartList)
-                              );
-                              refreshCart();
-                            }}
-                            color="geekblue"
-                          >
-                            {path}
-                          </Tag>
-                        ))}
-                      </div>
-                    ),
-                  });
+                  handleCartClick(list, "JS Files");
                 }}
                 type="primary"
                 description={
@@ -107,43 +113,7 @@ export const CartButton = () => {
               <FloatButton
                 key={key}
                 onClick={() => {
-                  const cssList = list.map((item) => item.key);
-                  Modal.info({
-                    title: "CSS List",
-                    closable: true,
-                    width: 800,
-                    okText: "Open All",
-                    onOk: () => {
-                      const cssString = cssList.join(",");
-                      const url = `/v1??${cssString}`;
-                      window.open(url);
-                    },
-                    content: (
-                      <div>
-                        {cssList.map((path) => (
-                          <Tag
-                            closable
-                            onClose={() => {
-                              const cartListInLocalStorage =
-                                JSON.parse(localStorage.getItem(KEY_OF_CART)) ||
-                                [];
-                              const newCartList = cartListInLocalStorage.filter(
-                                (item) => item.key !== path
-                              );
-                              localStorage.setItem(
-                                KEY_OF_CART,
-                                JSON.stringify(newCartList)
-                              );
-                              refreshCart();
-                            }}
-                            color="purple"
-                          >
-                            {path}
-                          </Tag>
-                        ))}
-                      </div>
-                    ),
-                  });
+                  handleCartClick(list, "CSS Files");
                 }}
                 description={
                   <Badge
