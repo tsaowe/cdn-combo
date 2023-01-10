@@ -1,10 +1,13 @@
-FROM cdn-combo-image-cache:latest
+FROM node:latest
 
 # Create app directory
 WORKDIR /app
 
-# Copy necessary files
-COPY server src package.json README.md yarn.lock vite.config.js nginx.conf /app/
+# clone repo https://github.com/tsaowe/cdn-combo.git
+RUN git clone https://github.com/tsaowe/cdn-combo.git
+
+# cd
+WORKDIR /app/cdn-combo
 
 # Install dependencies
 # RUN yarn install
