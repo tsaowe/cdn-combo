@@ -4,7 +4,7 @@ FROM node:latest
 WORKDIR /app
 
 # Copy necessary files
-COPY server src package.json README.md yarn.lock vite.config.js ./
+COPY server src package.json README.md yarn.lock vite.config.js nginx.conf ./
 
 # Install dependencies
 RUN yarn install
