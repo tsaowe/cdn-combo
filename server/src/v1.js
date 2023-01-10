@@ -65,6 +65,7 @@ export const viewGroupPackageTree = async (ctx) => {
   const { scope, packageName, version } = ctx.params;
   const realPackageName = `@${scope}/${packageName}`;
   try {
+    await download(realPackageName, version);
     const treeDataWithFolderName = directoryTree(
       path.join(config.comboFolder, realPackageName, version)
     );
