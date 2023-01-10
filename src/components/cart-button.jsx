@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback, useMemo } from "react";
-import { Badge, FloatButton } from "antd";
+import { Badge, FloatButton, Modal, Tag } from "antd";
 import {
   ALLOW_ADD_CART_TYPES,
   KEY_OF_CART,
@@ -53,6 +53,33 @@ export const CartButton = () => {
           case ".js":
             return (
               <FloatButton
+                key={key}
+                onClick={() => {
+                  const jsList = list.map((item) => item.key);
+                  Modal.info({
+                    title: "JS List",
+                    width: 800,
+                    closable: true,
+                    okText: "Open All",
+                    onOk() {
+                      const jsString = jsList.join(",");
+                      const url = `/v1??${jsString}`;
+                      window.open(url);
+                    },
+                    content: (
+                      <div>
+                        {jsList.map((path) => (
+                          <Tag closable onClose={()=>{
+                            const cartListInLocalStorage = JSON.parse(localStorage.getItem(KEY_OF_CART)) || [];
+                            const newCartList = cartListInLocalStorage.filter(item=>item.key !== path);
+                            localStorage.setItem(KEY_OF_CART, JSON.stringify(newCartList));
+                            refreshCart();
+                          }} color="geekblue">{path}</Tag>
+                        ))}
+                      </div>
+                    ),
+                  });
+                }}
                 type="primary"
                 description={
                   <Badge
@@ -65,6 +92,33 @@ export const CartButton = () => {
           case ".css":
             return (
               <FloatButton
+                key={key}
+                onClick={() => {
+                  const cssList = list.map((item) => item.key);
+                  Modal.info({
+                    title: "CSS List",
+                    closable: true,
+                    width: 800,
+                    okText: "Open All",
+                    onOk: () => {
+                      const cssString = cssList.join(",");
+                      const url = `/v1??${cssString}`;
+                      window.open(url);
+                    },
+                    content: (
+                      <div>
+                        {cssList.map((path) => (
+                          <Tag closable onClose={()=>{
+                            const cartListInLocalStorage = JSON.parse(localStorage.getItem(KEY_OF_CART)) || [];
+                            const newCartList = cartListInLocalStorage.filter(item=>item.key !== path);
+                            localStorage.setItem(KEY_OF_CART, JSON.stringify(newCartList));
+                            refreshCart();
+                          }} color="purple">{path}</Tag>
+                        ))}
+                      </div>
+                    ),
+                  });
+                }}
                 description={
                   <Badge
                     count={list.length}
@@ -74,7 +128,7 @@ export const CartButton = () => {
               />
             );
           default:
-            return <FloatButton description={<Badge count={list.length} />} />;
+            return <FloatButton key={key} description={<Badge count={list.length} />} />;
         }
       })}
     </FloatButton.Group>

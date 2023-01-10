@@ -4,6 +4,7 @@ import { Spin } from "antd";
 import axios from "axios";
 import { useMatch, Link } from "react-router-dom";
 import { KEY_OF_SEARCH_HISTORY } from "../constant.js";
+import {CartButton} from "../components/cart-button.jsx";
 
 export const Versions = () => {
   const match1 = useMatch("/versions/:packageName");
@@ -74,6 +75,7 @@ export const Versions = () => {
           ))}
         </ul>
       </div>
+      <CartButton />
     </Spin>
   );
 };
