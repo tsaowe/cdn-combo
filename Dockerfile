@@ -1,4 +1,4 @@
-FROM node:latest
+FROM cdn-combo-image-cache:latest
 
 # Create app directory
 WORKDIR /app
