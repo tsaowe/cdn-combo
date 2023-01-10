@@ -8,7 +8,7 @@ COPY server src package.json README.md yarn.lock vite.config.js nginx.conf ./
 RUN yarn install
 
 # install vim, with
-RUN sudo add-apt-repository ppa:saiarcot895/myppa
-RUN sudo apt-get update
-RUN sudo apt-get -y install apt-fast
+RUN add-apt-repository ppa:saiarcot895/myppa
+RUN apt-get update
+RUN apt-get -y install apt-fast
 RUN apt-get update && apt-get install -y vim
