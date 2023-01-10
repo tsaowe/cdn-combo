@@ -13,28 +13,26 @@ export const Versions = () => {
   const [loading, setLoading] = useState(false);
   const packageName = R.path(["params", "packageName"], match);
   const version = R.path(["params", "version"], match);
+
+  const requestPackageName = version ? `${packageName}/${version}` : packageName;
   const [versions, setVersions] = useState([]);
   useEffect(() => {
     setLoading(true);
     axios({
       method: "get",
-      url: version
-        ? `/api/view/${packageName}/${version}`
-        : `/api/view/${packageName}`,
+      url: `/api/view/${requestPackageName}`,
     }).then((res) => {
       setVersions(res.data);
       setLoading(false);
     });
-  }, [packageName, version]);
+  }, [requestPackageName]);
   return (
     <Spin className="page-spin" spinning={loading}>
       <div className="padding-left-12 padding-top-12">
         <ul className="flex-column gap-12 font-16-regular">
           {versions.map((v) => (
             <li key={v}>
-              <Link to={`/tree/${packageName}/${v}`}>
-                {packageName + (version ? `/${version}` : "")}@{v}
-              </Link>
+              <Link to={`/tree/${requestPackageName}/${v}`}>{requestPackageName}@{v}</Link>
             </li>
           ))}
         </ul>
