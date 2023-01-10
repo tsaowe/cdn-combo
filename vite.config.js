@@ -4,7 +4,7 @@ import react from "@vitejs/plugin-react";
 
 // https://vitejs.dev/config/
 const config = defineConfig({
-  root: "src",
+  root: path.resolve( "src"),
   plugins: [react()],
   server: {
     port: 4000,
