@@ -7,7 +7,7 @@ import {
   getExpiresTime,
   viewPackageVersions,
 } from "./util.js";
-import { sameMimeType } from "./same-mime-type.js";
+import { checkIsSameMimeType } from "./check-is-same-mime-type.js";
 import { getMimeType } from "./get-mime-type.js";
 import axios from "axios";
 
@@ -93,7 +93,7 @@ export const main = async (ctx) => {
     const list = listStr.split(",");
 
     //  是否所有的文件都是一种类型,如果不是一种类型走else逻辑
-    if (sameMimeType(list)) {
+    if (checkIsSameMimeType(list)) {
       const contents = await Promise.all(
         list.map(async (file) => {
           // {

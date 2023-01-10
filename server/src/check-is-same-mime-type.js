@@ -1,6 +1,6 @@
 import path from "path";
 
-export const sameMimeType = (list = []) => {
+export const checkIsSameMimeType = (list = []) => {
   switch (list.length) {
     case 0:
     case 1:

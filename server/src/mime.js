@@ -1,5 +1,4 @@
-//  ctx.type=
-export default {
+const mime =  {
   123: "application/vnd.lotus-1-2-3",
   "3dml": "text/vnd.in3d.3dml",
   "3ds": "image/x-3ds",
@@ -1010,4 +1009,7 @@ export default {
   zir: "application/vnd.zul",
   zirz: "application/vnd.zul",
   zmm: "application/vnd.handheld-entertainment+xml",
+  undefined: "text/plain"
 };
+
+export default mime;

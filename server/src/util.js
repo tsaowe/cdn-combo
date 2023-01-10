@@ -1,37 +1,51 @@
-import path from "path";
 import fs from "fs";
-import childProcess from "child_process";
-import * as R from "ramda";
-import zlib from "zlib";
 import tar from "tar";
+import zlib from "zlib";
+import path from "path";
+import * as R from "ramda";
+import childProcess from "child_process";
 import { config } from "../constant.js";
 
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, interval } from "rxjs";
 
 const behaviorSubjectMap = new Map();
 
 export const rememberChildProcessExecInSeconds = (command, seconds = 60) => {
+  const BehaviorSubjectInitValue = Symbol("BehaviorSubjectInitValue");
   const key = command;
-  let behaviorSubject = behaviorSubjectMap.get(key);
-  if (!behaviorSubject) {
-    behaviorSubject = new BehaviorSubject(null);
-    behaviorSubjectMap.set(key, behaviorSubject);
+  let behaviorSubject$ = behaviorSubjectMap.get(key);
+  if (!behaviorSubject$) {
+    behaviorSubject$ = new BehaviorSubject(BehaviorSubjectInitValue);
+    behaviorSubjectMap.set(key, behaviorSubject$);
     setTimeout(() => {
-      behaviorSubjectMap.delete(key);
+      //  complete ?
+      if (behaviorSubject$.isStopped) {
+        behaviorSubjectMap.delete(key);
+      } else {
+        //  not complete yet, interval check
+        const intervalSubject$ = interval(1000);
+        const subscription = intervalSubject$.subscribe(() => {
+          if (behaviorSubject$.isStopped) {
+            behaviorSubjectMap.delete(key);
+            subscription.unsubscribe();
+          }
+        });
+      }
     }, seconds * 1000);
     childProcess.exec(command, (error, stdout, stderr) => {
       if (error) {
-        behaviorSubject.error(stderr);
+        behaviorSubject$.error(stderr);
       } else {
-        behaviorSubject.next(stdout);
+        behaviorSubject$.next(stdout);
+        behaviorSubject$.complete();
       }
     });
   }
 
   return new Promise((resolve, reject) => {
-    behaviorSubject.subscribe({
+    behaviorSubject$.subscribe({
       next: (value) => {
-        if (value) {
+        if (value !== BehaviorSubjectInitValue) {
           resolve(value);
         }
       },
@@ -43,7 +57,9 @@ export const rememberChildProcessExecInSeconds = (command, seconds = 60) => {
 export const viewPackageVersions = (packageName) => {
   return new Promise((resolve, reject) => {
     rememberChildProcessExecInSeconds(
-      `npm view ${packageName} versions --json`
+      `npm view ${packageName} versions --json`,
+      //  5 minutes
+      5 * 60
     ).then(
       (stdout) => {
         const versionList = JSON.parse(stdout);
