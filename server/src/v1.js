@@ -11,6 +11,11 @@ import { sameMimeType } from "./same-mime-type.js";
 import { getMimeType } from "./get-mime-type.js";
 import axios from "axios";
 
+export const renderIndex = async () => {
+  const indexHtml = path.resolve(config.projectFolder, "dist", "index.html");
+  return  fs.readFileSync(indexHtml, "utf-8");
+}
+
 export const system = async (ctx) => {
   ctx.body = {
     message: "system",

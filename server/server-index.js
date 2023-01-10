@@ -1,11 +1,33 @@
 import Koa from "koa";
 import Router from "@koa/router";
+import path from "path";
+import fs from "fs";
 import * as v1 from "./src/v1.js";
+import {config} from "./constant.js";
+import mime from "./src/mime.js";
 
-const port = 4001;
+const port = 4000;
 const app = new Koa();
 
 const router = new Router();
+
+//  all fallback to index.html
+app.use(async (ctx, next) => {
+  await next();
+  if (ctx.status === 404) {
+    ctx.status = 200;
+    ctx.type = "html";
+    ctx.body = await v1.renderIndex();
+  }
+});
+
+router.get('/assets/:filename', async (ctx) => {
+  const { filename } = ctx.params;
+  const ext = path.extname(filename);
+  ctx.type = mime[ext.substring(1)];
+  ctx.body = fs.createReadStream(path.resolve(config.projectFolder, 'dist', 'assets', filename));
+});
+
 
 //  view system info
 router.get("/api/system", v1.system);
