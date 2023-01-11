@@ -61,7 +61,7 @@ export const viewPackageVersions = (packageName) => {
       5 * 60
     ).then(
       (stdout) => {
-        const versionList = JSON.parse(stdout);
+        const versionList = JSON.parse(stdout.toString());
         resolve(R.reverse(versionList));
       },
       (stderr) => {

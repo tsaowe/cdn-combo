@@ -1,5 +1,6 @@
 # ignore file for docker
-node_modules
 combo
 dist
 local
+node_modules
+screen-shot
