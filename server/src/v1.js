@@ -134,7 +134,7 @@ export const main = async (ctx) => {
     }
   } catch (e) {
     console.log(e);
-    ctx.body = "exception";
+    ctx.body = e;
   }
 };
 
