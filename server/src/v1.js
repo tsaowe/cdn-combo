@@ -2,7 +2,6 @@ import path from "path";
 import fs from "fs";
 import { config } from "../constant.js";
 import {
-  directoryTree,
   download,
   downloadAndUnTarAndTree,
   getExpiresTime,
