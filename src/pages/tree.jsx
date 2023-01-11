@@ -66,7 +66,7 @@ export const Tree = () => {
     setLoading(true);
     axios({
       method: "get",
-      url: `/api/view/${realPackageName}/${version}`,
+      url: `/api/tree/${realPackageName}/${version}`,
     }).then((res) => {
       R.pipe(convertApiDataToTreeData, setTreeData)([res.data]);
       setLoading(false);

@@ -4,6 +4,7 @@ import { config } from "../constant.js";
 import {
   directoryTree,
   download,
+  downloadAndUnTarAndTree,
   getExpiresTime,
   viewPackageVersions,
 } from "./util.js";
@@ -46,37 +47,17 @@ export const viewGroupPackage = async (ctx) => {
 export const viewSimplePackageTree = async (ctx) => {
   const { packageName, version } = ctx.params;
   try {
-    await download(packageName, version);
-    const treeDataWithFolderName = directoryTree(
-      path.join(config.comboFolder, packageName, version)
-    );
-    //  replace all the path 'prefix' to ''
-    ctx.body = JSON.parse(
-      JSON.stringify(treeDataWithFolderName).replace(
-        new RegExp(config.comboFolder + "/", "g"),
-        ""
-      )
-    );
+    ctx.body = await downloadAndUnTarAndTree(packageName, version);
   } catch (e) {
     ctx.body = e;
   }
 };
 
 export const viewGroupPackageTree = async (ctx) => {
-  const { scope, packageName, version } = ctx.params;
-  const realPackageName = `@${scope}/${packageName}`;
+  const { scope, name, version } = ctx.params;
+  const packageName = `@${scope}/${name}`;
   try {
-    await download(realPackageName, version);
-    const treeDataWithFolderName = directoryTree(
-      path.join(config.comboFolder, realPackageName, version)
-    );
-    //  replace all the path 'prefix' to ''
-    ctx.body = JSON.parse(
-      JSON.stringify(treeDataWithFolderName).replace(
-        new RegExp(config.comboFolder + "/", "g"),
-        ""
-      )
-    );
+    ctx.body = await downloadAndUnTarAndTree(packageName, version);
   } catch (e) {
     ctx.body = e;
   }

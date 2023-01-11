@@ -209,3 +209,17 @@ export const getExpiresTime = (year = 0) => {
   d.setFullYear(d.getFullYear() + year);
   return d.toUTCString();
 };
+
+export const downloadAndUnTarAndTree = async (packageName, version) => {
+  await download(packageName, version);
+  const treeDataWithFolderName = directoryTree(
+    path.join(config.comboFolder, packageName, version)
+  );
+  //  replace all the path 'prefix' to ''
+  return JSON.parse(
+    JSON.stringify(treeDataWithFolderName).replace(
+      new RegExp(config.comboFolder + "/", "g"),
+      ""
+    )
+  );
+};
