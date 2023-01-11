@@ -33,10 +33,11 @@ export const viewSimplePackage = async (ctx) => {
 };
 
 export const viewGroupPackage = async (ctx) => {
-  const { scope, packageName } = ctx.params;
-  const realPackageName = `@${scope}/${packageName}`;
+  //  scope is like `@babel` without `@` => `babel`
+  const { scope, name } = ctx.params;
+  const packageName = `@${scope}/${name}`;
   try {
-    ctx.body = await viewPackageVersions(realPackageName);
+    ctx.body = await viewPackageVersions(packageName);
   } catch (e) {
     ctx.body = e;
   }
@@ -123,17 +124,18 @@ export const main = async (ctx) => {
           }
           return new Promise((resolve, reject) => {
             const innerPath = (restPath || []).join("/");
-            const filePath = path.resolve(parentFolderPath, innerPath || ".", base);
-            fs.readFile(
-              filePath,
-              (err, content) => {
-                if (err) {
-                  reject(err);
-                } else {
-                  resolve(content);
-                }
-              }
+            const filePath = path.resolve(
+              parentFolderPath,
+              innerPath || ".",
+              base
             );
+            fs.readFile(filePath, (err, content) => {
+              if (err) {
+                reject(err);
+              } else {
+                resolve(content);
+              }
+            });
           });
         })
       );

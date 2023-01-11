@@ -8,23 +8,23 @@ import { CartButton } from "../components/cart-button.jsx";
 
 export const Versions = () => {
   const match1 = useMatch("/versions/:packageName");
-  const match2 = useMatch("/versions/:packageName/:version");
+  const match2 = useMatch("/versions/:scope/:name");
 
-  const match = match1 || match2;
+  const params1 = R.pathOr({}, ["params"], match1);
+  const params2 = R.pathOr({}, ["params"], match2);
+  const params = { ...params1, ...params2 };
+
+  const { scope, name, packageName: routePackageName } = params;
 
   const [loading, setLoading] = useState(false);
-  const packageName = R.path(["params", "packageName"], match);
-  const version = R.path(["params", "version"], match);
+  const packageName = scope ? `${scope}/${name}` : routePackageName;
 
-  const requestPackageName = version
-    ? `${packageName}/${version}`
-    : packageName;
   const [versions, setVersions] = useState([]);
   useEffect(() => {
     setLoading(true);
     axios({
       method: "get",
-      url: `/api/view/${requestPackageName}`,
+      url: `/api/versions/${packageName}`,
     }).then((res) => {
       setVersions(res.data);
       setLoading(false);
@@ -38,13 +38,13 @@ export const Versions = () => {
        */
       const searchHistoryList = JSON.parse(searchHistory);
       const index = searchHistoryList.findIndex(
-        (item) => item.name === requestPackageName
+        (item) => item.name === packageName
       );
       if (index > -1) {
         searchHistoryList[index].queryCount += 1;
         searchHistoryList.unshift(searchHistoryList.splice(index, 1)[0]);
       } else {
-        searchHistoryList.unshift({ name: requestPackageName, queryCount: 1 });
+        searchHistoryList.unshift({ name: packageName, queryCount: 1 });
       }
       localStorage.setItem(
         KEY_OF_SEARCH_HISTORY,
@@ -61,15 +61,15 @@ export const Versions = () => {
         ])
       );
     }
-  }, [requestPackageName]);
+  }, [packageName]);
   return (
     <Spin className="page-spin" spinning={loading}>
       <div className="padding-left-12 padding-top-12">
         <ul className="flex-column gap-12 font-16-regular">
           {versions.map((v) => (
             <li key={v}>
-              <Link to={`/tree/${requestPackageName}/${v}`}>
-                {requestPackageName}@{v}
+              <Link to={`/tree/${packageName}/${v}`}>
+                {packageName}@{v}
               </Link>
             </li>
           ))}

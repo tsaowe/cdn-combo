@@ -41,9 +41,9 @@ router.get("/v1", v1.main);
 
 // view package version list
 //  1. group package, eg: @koa/router
-router.get("/api/view/@:scope/:packageName", v1.viewGroupPackage);
+router.get("/api/versions/@:scope/:name", v1.viewGroupPackage);
 //  2. simple package,eg: koa
-router.get("/api/view/:packageName", v1.viewSimplePackage);
+router.get("/api/versions/:packageName", v1.viewSimplePackage);
 
 //  view package at specific version dist tree
 //  1. group package, eg: @koa/router/1.0.0
