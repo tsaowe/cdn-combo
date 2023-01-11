@@ -114,7 +114,7 @@ export const main = async (ctx) => {
           );
           if (!fs.existsSync(parentFolderPath)) {
             const realPackageName = packageName.startsWith("@")
-              ? `@${packageName}/${version}`
+              ? `${packageName}/${version}`
               : `${packageName}`;
             const realVersion = packageName.startsWith("@")
               ? restPath[0]
