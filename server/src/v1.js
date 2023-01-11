@@ -114,8 +114,8 @@ export const main = async (ctx) => {
           );
           if (!fs.existsSync(parentFolderPath)) {
             const realPackageName = packageName.startsWith("@")
-              ? `${packageName}/${version}`
-              : `@${packageName}`;
+              ? `@${packageName}/${version}`
+              : `${packageName}`;
             const realVersion = packageName.startsWith("@")
               ? restPath[0]
               : version;
@@ -123,8 +123,9 @@ export const main = async (ctx) => {
           }
           return new Promise((resolve, reject) => {
             const innerPath = (restPath || []).join("/");
+            const filePath = path.resolve(parentFolderPath, innerPath || ".", base);
             fs.readFile(
-              path.resolve(parentFolderPath, innerPath || ".", base),
+              filePath,
               (err, content) => {
                 if (err) {
                   reject(err);
