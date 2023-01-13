@@ -23,7 +23,7 @@ export const system = async (ctx) => {
   };
 };
 
-export const viewSimplePackage = async (ctx) => {
+export const viewSimplePackageVersions = async (ctx) => {
   const { packageName } = ctx.params;
   try {
     ctx.body = await viewPackageVersions(packageName);
@@ -32,7 +32,7 @@ export const viewSimplePackage = async (ctx) => {
   }
 };
 
-export const viewGroupPackage = async (ctx) => {
+export const viewScopePackageVersions = async (ctx) => {
   //  scope is like `@babel` without `@` => `babel`
   const { scope, name } = ctx.params;
   const packageName = `@${scope}/${name}`;
@@ -43,7 +43,7 @@ export const viewGroupPackage = async (ctx) => {
   }
 };
 
-export const viewSimplePackageTree = async (ctx) => {
+export const viewSimplePackageFileTree = async (ctx) => {
   const { packageName, version } = ctx.params;
   try {
     ctx.body = await downloadAndUnTarAndTree(packageName, version);
@@ -52,7 +52,7 @@ export const viewSimplePackageTree = async (ctx) => {
   }
 };
 
-export const viewGroupPackageTree = async (ctx) => {
+export const viewScopePackageFileTree = async (ctx) => {
   const { scope, name, version } = ctx.params;
   const packageName = `@${scope}/${name}`;
   try {
