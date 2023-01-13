@@ -26,7 +26,7 @@ export const SearchHistory = () => {
     }
   }, []);
   return (
-    <div className="flex margin-24-0">
+    <div className="flex wrap gap-12 margin-24-0">
       {searchList.map((item) => {
         return <MyTag key={item.name}>{item.name}</MyTag>;
       })}
