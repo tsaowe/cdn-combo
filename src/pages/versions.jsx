@@ -65,6 +65,11 @@ export const Versions = () => {
   return (
     <Spin className="page-spin" spinning={loading}>
       <div className="padding-left-12 padding-top-12">
+        <div className="margin-24-0 font-24-medium">
+          <a target="_blank" referrerPolicy="strict-origin" href={`https://www.npmjs.com/package/${packageName}`}>
+            link to npm "{packageName}"
+          </a>
+        </div>
         <ul className="flex-column gap-12 font-16-regular">
           {versions.map((v) => (
             <li key={v}>
