@@ -50,6 +50,17 @@
 > CDN-combo server => CDN server => client
 
 
+### local development
+1. start cdn-combo server
+```
+node server/server-index.js
+```
+2. start cdn-combo client
+```
+yarn dev
+```
+
+
 ### Build and RUN
 ```
 git clone https://github.com/tsaowe/cdn-combo.git
