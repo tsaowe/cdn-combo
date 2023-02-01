@@ -2,6 +2,13 @@
 
 
 ## What is cdn-combo?
+> CDN-combo is a technology that combines files together for client-side use. It originates from two words: CDN and combo. Combo refers to a combination move in games, and CDN-combo refers to combining the required resources together for client-side use. This technology has the following characteristics:
+> 1. Saves the number of HTTP requests, improving page load speed.
+> 2. Connects to CDN, avoiding local installation, and improving local development efficiency.
+> 3. Additional functionality is improved, making it easy to quickly search and reference resource packages.
+>
+> This technology is commonly used in front-end optimization to improve website access speed and reduce server pressure.
+> 
 ![cdn-combo is a tool that can help you to combine multiple files into one file. It is very useful when you want to reduce the number of requests to the server.](screen-shot/combo.jpeg)
 
 
