@@ -39,6 +39,7 @@ router.get("/api/search/suggestions", v1.searchSuggests);
 
 //  v1, eg: /v1??jquery/3.5.1/dist/jquery.min.js,react/16.13.1/umd/react.production.min.js
 router.get("/v1", v1.main);
+router.get('/repl/v1', v1.repl);
 
 // view package version list
 //  1. group package, eg: @koa/router

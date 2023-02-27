@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback, useMemo } from "react";
-import { Badge, FloatButton, Modal, Tag, message } from "antd";
+import { Badge, FloatButton, Modal, Tag, message, Button } from "antd";
 import {
   ALLOW_ADD_CART_TYPES,
   KEY_OF_CART,
@@ -44,16 +44,34 @@ export const CartButton = () => {
       title,
       width: 800,
       closable: true,
-      okText: "Open All",
-      onOk() {
-        if (filePathList.length === 0) {
-          message.info("No files to open");
-          return Promise.reject();
-        }
-        const comboString = filePathList.join(",");
-        const url = `/v1??${comboString}`;
-        window.open(url);
-        return Promise.reject();
+      footer:[
+        <div className="flex flex-end-center margin-top-12">
+          <Button
+            type="primary"
+            onClick={(event)=>{
+              if (filePathList.length === 0) {
+                message.info("No files to open");
+                return Promise.reject();
+              }
+              const comboString = filePathList.join(",");
+              const url = `/v1??${comboString}`;
+              //  cmd+click || alt+click|| ctrl+click
+              if (event.metaKey || event.altKey || event.ctrlKey) {
+                const replUrl = `/repl${url}`;
+                console.log(replUrl);
+                window.open(replUrl, "_blank");
+              } else {
+                window.open(url, "_blank");
+              }
+              return Promise.reject();
+            }}
+          >Open All</Button>
+        </div>
+      ],
+      onOk(...args) {
+        console.log(args);
+        return;
+
       },
       content: (
         <div className="flex wrap gap-6-12">

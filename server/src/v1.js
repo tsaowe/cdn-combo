@@ -138,6 +138,12 @@ export const main = async (ctx) => {
   }
 };
 
+export const repl = async (ctx) => {
+  const query = Object.keys(ctx.query)[0] || "";
+  const src = `/v1?${query}`
+  ctx.body = `<html><head><title>repl</title><script src="${src}"></script></head><body></body></html>`;
+}
+
 export const searchSuggests = async (ctx) => {
   //  get method get query string 'q'
   const { q } = ctx.query;
