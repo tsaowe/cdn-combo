@@ -44,11 +44,11 @@ export const CartButton = () => {
       title,
       width: 800,
       closable: true,
-      footer:[
+      footer: [
         <div className="flex flex-end-center margin-top-12">
           <Button
             type="primary"
-            onClick={(event)=>{
+            onClick={(event) => {
               if (filePathList.length === 0) {
                 message.info("No files to open");
                 return Promise.reject();
@@ -65,14 +65,11 @@ export const CartButton = () => {
               }
               return Promise.reject();
             }}
-          >Open All</Button>
-        </div>
+          >
+            Open All
+          </Button>
+        </div>,
       ],
-      onOk(...args) {
-        console.log(args);
-        return;
-
-      },
       content: (
         <div className="flex wrap gap-6-12">
           {filePathList.map((path) => (

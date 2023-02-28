@@ -164,7 +164,16 @@ export const Tree = () => {
           defaultExpandAll
           onSelect={(selectedKeys, event) => {
             const key = R.pathOr("", ["node", "key"], event);
-            window.open("/v1??" + key);
+            const ext = key.split(".").pop();
+            const extWithDot = ext ? `.${ext}` : "";
+            const allowAddCart = ALLOW_ADD_CART_TYPES.includes(extWithDot);
+            const metaKey =
+              event.nativeEvent.metaKey || event.nativeEvent.ctrlKey;
+            if (metaKey && allowAddCart) {
+              window.open(`/repl/v1??${key}`);
+            } else {
+              window.open("/v1??" + key);
+            }
           }}
           treeData={treeData}
         />
