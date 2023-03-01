@@ -74,8 +74,19 @@ export const CartButton = () => {
         <div className="flex wrap gap-6-12">
           {filePathList.map((path) => (
             <Tag
+              className="cursor-pointer"
               closable
-              onClose={() => {
+              onClick={(e) => {
+                const isCmdOrCtrl = e.metaKey || e.ctrlKey;
+                if (isCmdOrCtrl) {
+                  const replUrl = `/repl/v1??${path}`;
+                  window.open(replUrl, "_blank");
+                } else {
+                  window.open(`/v1??${path}`, "_blank");
+                }
+              }}
+              onClose={(e) => {
+                e.stopPropagation();
                 const cartListInLocalStorage =
                   JSON.parse(localStorage.getItem(KEY_OF_CART)) || [];
                 const newCartList = cartListInLocalStorage.filter(
