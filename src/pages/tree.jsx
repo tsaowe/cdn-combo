@@ -6,6 +6,7 @@ import {
   Popover,
   message,
   Tooltip,
+  Typography,
 } from "antd";
 import * as R from "ramda";
 import axios from "axios";
@@ -16,6 +17,8 @@ import {
   KEY_OF_CART,
   SubjectOfAddToCart,
 } from "../constant.js";
+
+const {Text} = Typography;
 
 /**
  * api data structure: {path: string, type: 'file|folder', name: string, children: [...]}
@@ -75,15 +78,19 @@ export const Tree = () => {
   return (
     <Spin className="page-spin" spinning={loading}>
       <div className="padding-24">
-        <Button
-          className="margin-bottom-24"
-          type="primary"
-          onClick={() => {
-            navigate(`/`);
-          }}
-        >
-          Home
-        </Button>
+        <div className="flex-start-center margin-bottom-24 gap-10">
+          <Button
+            type="primary"
+            onClick={() => {
+              navigate(`/`);
+            }}
+          >
+            Home
+          </Button>
+          <Text type="secondary">
+            Tips: Command/Ctrl + Click to open REPL window
+          </Text>
+        </div>
         <AntdTree
           titleRender={(node) => {
             const ext = node.title.split(".").pop();
