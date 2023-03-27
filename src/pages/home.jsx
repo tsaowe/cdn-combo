@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { Select } from "antd";
+import { CdnComboText } from "../animation/cdn-combo.jsx";
 import { SearchHistory } from "../components/search-history.jsx";
 import { Subject, debounceTime, filter, distinctUntilChanged } from "rxjs";
 import { useNavigate } from "react-router-dom";
@@ -64,6 +65,7 @@ export const Home = () => {
 
   return (
     <div className="padding-64">
+      <CdnComboText />
       <Select
         onSearch={(value) => inputSubject$.next(value)}
         className="width-100-percent"
